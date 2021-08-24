@@ -1,0 +1,37 @@
+version: "3.3"
+
+services:
+  db-insurances:
+    image: mysql:5.7.25
+    volumes:
+      - db_data:/var/lib/mysql/
+    command: --secure-file-priv=""
+    environment:
+      - MYSQL_ROOT_PASSWORD=_123qwe_
+      - MYSQL_DATABASE=insurances
+      - MYSQL_USER=insurances_user
+      - MYSQL_PASSWORD=_123qwe_
+    ports:
+      - "3306:3306"
+
+  api-insurances:
+    build: .
+    command: bash -c "ls -la && python PruebaTecnica/scripts/check_database_is_up.py --ip  db-insurances --port 3306 &&
+      python manage.py makemigrations &&
+      python manage.py migrate &&
+      python manage.py load_insurer_data &&
+      python manage.py runserver 0.0.0.0:8888"
+    volumes:
+      - .:/local
+    ports:
+      - "8888:8888"
+    expose:
+      - "8888"
+    depends_on:
+      - db-insurances
+
+
+
+volumes:
+  db_data:
+    driver: local

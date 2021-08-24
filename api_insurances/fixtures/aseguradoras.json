@@ -1,0 +1,5 @@
+[{"id": 1, "name": "Mapfre", "categories": ["Coche", "Moto"], "phone": "916836496"},
+  {"id": 2, "name": "Mutua", "categories": ["Coche", "Moto"], "phone": "916836433"},
+  {"id": 3, "name": "Pelayo", "categories": ["Coche"], "phone": "9168364345"},
+  {"id": 4, "name": "Pelayo", "categories": ["Moto"], "phone": "9168364329"},
+  {"id": 5, "name": "Qualitas Auto", "categories": ["Coche"], "phone": "916836483"}]
