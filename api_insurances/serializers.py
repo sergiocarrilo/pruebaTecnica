@@ -10,14 +10,14 @@ class UserSerializer(serializers.ModelSerializer):
 
     def create(self, data):
         user = User(**data)
-        user.save()
         user.set_password(data.get("password"))
+        user.save()
         token, created = Token.objects.get_or_create(user=user)
         return user, token.key
 
     class Meta:
         model = User
-        fields = ('username', 'first_name', 'last_name', 'email', 'password')
+        fields = ('id', 'username', 'first_name', 'last_name', 'email', 'password')
 
 
 class LoginSerializer(serializers.Serializer):
@@ -58,11 +58,8 @@ class InsuranceSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.Insurance
-        fields = ('insurance_price', 'insurance_category', 'periodicity', 'insurer', 'detail', 'coverage_end',
+        fields = ('id','insurance_price', 'insurance_category', 'periodicity', 'insurer', 'detail', 'coverage_end',
                   'insurer_name', 'insurer_phone')
-
-        extra_kwargs = {'periodicity': {'required': False}, 'insurer': {'required': False}, 'detail': {'required': False},
-                        'coverage_end': {'required': False}}
 
 
 class ListInsuranceSerializer(serializers.ModelSerializer):
@@ -70,5 +67,5 @@ class ListInsuranceSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.Insurance
-        fields = ('insurer', 'insurance_category', 'insurance_price',  )
+        fields = ('id', 'insurer', 'insurance_category', 'insurance_price', )
 

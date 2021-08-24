@@ -24,9 +24,9 @@ class AccountViewSet(viewsets.GenericViewSet):
     operations = operations.UserOperations
 
     def get_object(self, queryset=None):
-        obj = super().get_object(queryset=None)
         if self.request.user:
-            obj = self.request.user
+            return self.request.user
+        obj = super().get_object()
         return obj
 
     def unsubscribe(self, request):
@@ -49,11 +49,12 @@ class AccountViewSet(viewsets.GenericViewSet):
         try:
             self.operations().set_new_password(serializer.validated_data, self.object)
         except Exception as ex:
-            logger.error(f"Error while trying to set the new password. Error {ex.message}")
-            return Response({"response": ex.message},
+            logger.error(f"Error while trying to set the new password. Error {str(ex)}")
+            return Response({"response": str(ex)},
                             status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-        return Response(status=status.HTTP_204_NO_CONTENT)
 
+        return Response({"response": "Password has been changed"},
+                        status=status.HTTP_200_OK)
 
 class LoginViewSet(viewsets.GenericViewSet):
     queryset = User.objects.filter(is_active=True)
@@ -90,7 +91,7 @@ class InsuranceViewSet(viewsets.GenericViewSet):
         return queryset
 
     def list(self, request):
-        queryset = self.get_queryset().values('insurer__name', 'insurance_category', 'insurance_price')
+        queryset = self.get_queryset().values('id', 'insurer__name', 'insurance_category', 'insurance_price')
         serializer = self.list_serializer_class(queryset, many=True)
         return Response({"response": serializer.data}, status=status.HTTP_200_OK)
 

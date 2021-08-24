@@ -13,6 +13,5 @@ class Command(BaseCommand):
         for insurance in insurance_data:
             insurance_queryset = models.Insurers.objects.filter(id=insurance.get("id"))
             if not insurance_queryset:
-                print(insurance)
                 models.Insurers(**insurance).save()
         json_data.close()

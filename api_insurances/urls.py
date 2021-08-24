@@ -11,8 +11,8 @@ urlpatterns = [
     path('account/', views.AccountViewSet.as_view({
         'delete': 'unsubscribe'
     }), name='account'),
-    path('password/change', views.AccountViewSet.as_view({
-        'post': 'change_password'
+    path('password/change/', views.AccountViewSet.as_view({
+        'patch': 'change_password'
     }), name='password_change'),
     path('insurance/', views.InsuranceViewSet.as_view({
         'get': 'list',

@@ -14,5 +14,5 @@ class UserOperations:
         if not user.check_password(old_password):
             raise Exception("Wrong old password")
 
-        user.set_password(data.get("old_password"))
+        user.set_password(data.get("new_password"))
         user.save()
